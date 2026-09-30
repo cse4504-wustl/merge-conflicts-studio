@@ -273,7 +273,7 @@ Pull `main`, run the tests, run the program. Everyone should see all fields in t
 Requirements for every ticket:
 * Add your option as `5.` in `_print_menu`, and change Quit to `6.`
 * Add a matching `elif` in `run()`
-* Put your handler method (e.g. `_handle_clear_completed`) **directly after** `_handle_delete` in `ui/cli.py`
+* Write a new handler method for your feature (A: `_handle_clear_completed`, B: `_handle_edit`, C: `_handle_pending`). **Everyone** puts their method in the same place: directly after `_handle_delete` in `ui/cli.py`
 * Keep it small; 10 to 15 lines of code is plenty. (Adding a new use case in `use_cases/` is great design but optional today.)
 
 **Merge order: C → A → B** (2-person groups: A → B)
