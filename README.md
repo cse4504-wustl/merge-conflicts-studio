@@ -163,11 +163,24 @@ git pull
 git checkout round2-X
 git merge main
 ```
-Git reports `CONFLICT (content): Merge conflict in ...`. Run:
-```
-git status
-```
-Files under **"Unmerged paths"** have conflicts. You should see **two** files. Open each one in your editor and find every `<<<<<<<`. (VS Code highlights conflicts and offers *Accept Current / Accept Incoming / Accept Both*.)
+**Two files now have conflicts: `entity/task.py` and `ui/cli.py`.** Git tells you this in two places:
+
+1. **Right after `git merge main`**, in the terminal output:
+   ```
+   CONFLICT (content): Merge conflict in entity/task.py
+   CONFLICT (content): Merge conflict in ui/cli.py
+   Automatic merge failed; fix conflicts and then commit the result.
+   ```
+2. **Any time you run `git status`**, under **"Unmerged paths"**:
+   ```
+   Unmerged paths:
+   	both modified:   entity/task.py
+   	both modified:   ui/cli.py
+   ```
+
+(`git status` may also list your teammate's new test file under "Changes to be committed". Git merged that file on its own, so you can leave it alone.)
+
+Open both files in your editor and find every `<<<<<<<`. VS Code highlights each conflict and offers *Accept Current / Accept Incoming / Accept Both* above it.
 
 Locally, the top half of each conflict is labeled `HEAD`, which means **your branch**. The bottom half is labeled `main`. For example, C's `entity/task.py` looks like this:
 ```python
