@@ -41,6 +41,26 @@ In every round, everyone makes a change on their **own branch** and opens a pull
 
 ---
 
+## If GitHub is slow
+GitHub sometimes sits on *"Checking for the ability to merge automatically..."* for a long time. While it does, the **Merge pull request** and **Resolve conflicts** buttons aren't available. Don't wait on it:
+
+1. **Reload the page after ~15 seconds.** The check has often finished, but the page doesn't update on its own.
+2. **Still stuck after about a minute? Merge from your terminal instead.** Replace `roundN-X` with your branch:
+   ```
+   git checkout roundN-X
+   git pull
+   git checkout main
+   git pull
+   git merge --no-edit roundN-X
+   git push
+   ```
+   (The first `git pull` picks up anything committed to your branch on GitHub, such as a conflict you resolved in the web editor.)
+   If `git merge` reports a conflict, you merged out of order or skipped resolving. Run `git merge --abort` and check with your group.
+   Once the push succeeds, GitHub sees your commits on `main` and marks your PR as **Merged** by itself. It may take a minute to show up. You don't need to click anything.
+3. **You don't need GitHub to tell you there's a conflict.** If you're not first in the merge order, your PR *will* conflict. You can find and resolve the conflict locally with `git merge main` (see Round 2.3) without waiting for the PR page.
+
+---
+
 ## Setup (everyone, ~5 min)
 1. Clone your team repository and `cd` into it.
 2. Run `python -m unittest`. You should see `OK`.
@@ -75,9 +95,24 @@ git push --set-upstream origin round1-X
 On GitHub: **Pull requests → New pull request**, **base: `main`**, **compare: `round1-X`**. GitHub fills in the title from your commit message. Add your role letter to the front, e.g. `[B] Improve add-task confirmation message`. Give it a one-sentence description and click **Create pull request**. Don't merge yet!
 
 ### 1.3 Merge in order
-**Person A** (first in the merge order): your PR says *"This branch has no conflicts with the base branch."* Click **Merge pull request**, then **Confirm merge**.
+**Person A** (first in the merge order): your PR says *"This branch has no conflicts with the base branch."* Click **Merge pull request**, then **Confirm merge**. (Stuck on *"Checking for the ability to merge..."*? See [If GitHub is slow](#if-github-is-slow).)
 
 **Person B** (next): open **your** PR (`round1-b` → `main`) and refresh the page. It now says *"This branch has conflicts that must be resolved."* That happened because `main` changed (A's PR) on the same line your branch changed. Git can't know which version you want, so it asks a human.
+
+> **Plan B if the Resolve conflicts button never shows up:** resolve on your own machine instead. Do step 1.4 as usual, then:
+> ```
+> git checkout main
+> git pull
+> git checkout round1-b
+> git merge main
+> ```
+> Open `ui/cli.py`, replace the conflict (from `<<<<<<<` to `>>>>>>>`) with the line your group agreed on, then:
+> ```
+> git add ui/cli.py
+> git commit -m "Merge main into round1-b"
+> git push
+> ```
+> Now merge the PR. If that button is slow too, use option 2 in [If GitHub is slow](#if-github-is-slow). The local marker is labeled `HEAD` (your branch) instead of `round1-b`.
 
 Click **Resolve conflicts** on that PR. GitHub opens an editor showing something like this:
 
@@ -154,7 +189,7 @@ git push --set-upstream origin round2-X
 Open a PR from `round2-X` into `main`, with your role letter at the start of the title (e.g. `[C] Add due_date to Task`). **Merge order this round: B → C → A** (2-person groups: B → A).
 
 ### 2.2 First person merges
-Person B: your PR has no conflicts. Merge it.
+Person B: your PR has no conflicts. Merge it. (If GitHub is still checking, don't wait: see [If GitHub is slow](#if-github-is-slow).)
 
 ### 2.3 Resolve locally (next person)
 Your PR now shows a conflict. **Do not** use the GitHub button this time. Instead, bring the new `main` into your branch on your machine:
@@ -183,6 +218,10 @@ git merge main
 
 Open both files in your editor and find every `<<<<<<<`. VS Code highlights each conflict and offers *Accept Current / Accept Incoming / Accept Both* above it.
 
+**Stay in the regular editor and the terminal for this round.** VS Code also shows a **Resolve in Merge Editor** button in the bottom-right corner of a conflicted file. Don't click it. The Merge Editor's **Complete Merge** button stages the file for you, and VS Code then steers you into its Source Control panel to commit. That works, but it hides the `git add` / `git commit` steps this round is meant to practice. Instead, edit the file directly (typing, or the *Accept …* links above each conflict), save it, and finish in the terminal as shown below.
+
+> Already clicked **Resolve in Merge Editor**? That's fine. Finish resolving there and click **Complete Merge**, but **don't** commit from the Source Control panel. Go back to the terminal and run `git status`. The file now appears under "Changes to be committed". Continue with the checklist and the commands below.
+
 Locally, the top half of each conflict is labeled `HEAD`, which means **your branch**. The bottom half is labeled `main`. For example, C's `entity/task.py` looks like this:
 ```python
     def __init__(self, description: str, id: int, completed: bool = None, created_date: date = None,
@@ -210,7 +249,7 @@ git add entity/task.py ui/cli.py
 git commit -m "Merge main into round2-X"
 git push
 ```
-Your PR updates automatically and should now say *no conflicts*. Merge it on GitHub.
+Your PR updates automatically and should now say *no conflicts*. Merge it on GitHub. If GitHub is slow to re-check, you've already resolved everything locally, so merge from the terminal instead (option 2 in [If GitHub is slow](#if-github-is-slow)).
 
 > Stuck and want to start over? `git merge --abort` puts your branch back exactly as it was before `git merge main`.
 
