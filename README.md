@@ -199,9 +199,9 @@ Locally, the top half of each conflict is labeled `HEAD`, which means **your bra
 Do the same for the `self.<field> = <field>` lines. In `ui/cli.py`, make the printed line show **all** the new fields.
 
 **Checklist before you commit**
-- [ ] No conflict markers left: `git diff --check` prints nothing, and searching for `<<<<<<<` finds nothing
-- [ ] `python -m unittest` passes (your test file **and** your teammates' tests run)
-- [ ] `python main.py` works: add a task, complete it, list it, and see every field
+- No conflict markers left: `git diff --check` prints nothing, and searching for `<<<<<<<` finds nothing
+- `python -m unittest` passes (your test file **and** your teammates' tests run)
+- `python main.py` works: add a task, complete it, list it, and see every field
 
 Then finish the merge and push:
 ```
