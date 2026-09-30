@@ -7,8 +7,8 @@ Merge conflicts are a normal part of working on a team. In this studio you will 
 |---|---|---|---|
 | 1 | Reading conflict markers; choosing a resolution | GitHub web editor | Every step spelled out |
 | 2 | Resolving several conflicts across files, locally | Your editor + terminal | Commands given, explanation reduced |
-| 3 | Writing your own code that collides with a teammate's | Your choice | Feature description + checklist only |
-| 4 | A conflict Git **can't** see | — | One paragraph |
+| 3 | A conflict Git **can't** see | — | One paragraph |
+| 4 | Writing your own code that collides with a teammate's | Your choice | Feature description + checklist only |
 
 ## Roles and merge order
 Work in a group of **2 or 3**. Pick roles now and write them here:
@@ -23,8 +23,8 @@ In every round, everyone makes a change on their **own branch** and opens a pull
 |---|---|---|
 | 1 | A → **B** → **C** | A → **B** |
 | 2 | B → **C** → **A** | B → **A** |
-| 3 | C → **A** → **B** | A → **B** |
-| 4 | A → B (C: tester) | A → B |
+| 3 | A → B (C: tester) | A → B |
+| 4 | C → **A** → **B** | A → **B** |
 
 **Bold** = you will resolve a conflict in that round.
 
@@ -260,7 +260,17 @@ Pull `main`, run the tests, run the program. Everyone should see all fields in t
 
 ---
 
-## Round 3: Your own code, your own conflict (less guidance)
+## Round 3: The conflict Git can't see
+
+Update `main`. Person A: branch `round3-a` and apply `rounds/round3/A.patch`. Person B: branch `round3-b` and apply `rounds/round3/B.patch`. Read your own diff, commit, push, and open PRs (titles starting with `[A]` or `[B]`). Merge A, then B. (C: you're the tester. When both are merged, pull `main` and run everything.)
+
+Did Git report a conflict? Now run `python -m unittest` on `main`. Figure out what went wrong, why Git didn't catch it, and fix it on a new branch with a PR.
+
+**Before you start Round 4**, `main` must be healthy again: pull it and confirm `python -m unittest` passes.
+
+---
+
+## Round 4: Your own code, your own conflict (less guidance)
 
 **The story:** Each of you implements a new menu option. The product owner wants every new feature **as option 5**, with **Quit moved to option 6**. You'll soon find that you can't all be option 5.
 
@@ -280,7 +290,7 @@ Requirements for every feature:
 
 **Merge order: C → A → B** (2-person groups: A → B)
 
-Do the full workflow yourself: update `main`, branch (`round3-X`), implement, test, commit, push, PR (with `[A]`, `[B]`, or `[C]` at the start of the title), merge in order, and resolve any conflict **locally** as in Round 2.
+Do the full workflow yourself: update `main`, branch (`round4-X`), implement, test, commit, push, PR (with `[A]`, `[B]`, or `[C]` at the start of the title), merge in order, and resolve any conflict **locally** as in Round 2.
 
 **Definition of done** (whoever merges last checks these on `main`):
 - The menu lists every feature exactly once, numbered 1, 2, 3, … with **Quit last**
@@ -289,12 +299,3 @@ Do the full workflow yourself: update `main`, branch (`round3-X`), implement, te
 - `python -m unittest` passes and every menu option works in `python main.py`
 
 *Think about it:* choosing "ours" or "theirs" wasn't enough here. What did the correct resolution require that neither version had?
-
----
-
-## Round 4: The conflict Git can't see
-
-Update `main`. Person A: branch `round4-a` and apply `rounds/round4/A.patch`. Person B: branch `round4-b` and apply `rounds/round4/B.patch`. Read your own diff, commit, push, and open PRs (titles starting with `[A]` or `[B]`). Merge A, then B. (C: you're the tester. When both are merged, pull `main` and run everything.)
-
-Did Git report a conflict? Now run `python -m unittest` on `main`. Figure out what went wrong, why Git didn't catch it, and fix it on a new branch with a PR.
-
