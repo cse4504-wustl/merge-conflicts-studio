@@ -192,7 +192,7 @@ Locally, the top half of each conflict is labeled `HEAD`, which means **your bra
 >>>>>>> main
 ```
 
-⚠️ **Watch out:** "keep both" is the right *idea* here, but *Accept Both* just stacks the two lines. That gives a parameter list ending in `):` twice, which is a syntax error. After accepting both, **edit the result by hand** so there is one parameter list containing every field:
+**Watch out:** "keep both" is the right *idea* here, but *Accept Both* just stacks the two lines. That gives a parameter list ending in `):` twice, which is a syntax error. After accepting both, **edit the result by hand** so there is one parameter list containing every field:
 ```python
                  due_date: date = None, priority: str = "normal"):
 ```
@@ -256,12 +256,3 @@ Update `main`. Person A: branch `round4-a` and apply `rounds/round4/A.patch`. Pe
 
 Did Git report a conflict? Now run `python -m unittest` on `main`. Figure out what went wrong, why Git didn't catch it, and fix it on a new branch with a PR.
 
----
-
-## Wrap-up
-Answer these as a group (your instructor may collect them):
-1. In Round 1, what information did you need **beyond** the conflict markers to choose a resolution?
-2. In Round 2, why was "Accept Both" not enough on its own?
-3. In Round 3, describe the resolution you wrote. What would have happened if you had just picked one side?
-4. In Round 4, there was no conflict, yet `main` broke. What habit protects you from that?
-5. Name two things your team can do on your semester project to get **fewer** or **smaller** conflicts.
