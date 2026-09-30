@@ -8,7 +8,7 @@ Merge conflicts are a normal part of working on a team. In this studio you will 
 | 1 | Reading conflict markers; choosing a resolution | GitHub web editor | Every step spelled out |
 | 2 | Resolving several conflicts across files, locally | Your editor + terminal | Commands given, explanation reduced |
 | 3 | Writing your own code that collides with a teammate's | Your choice | Feature ticket + checklist only |
-| 4 *(stretch)* | A conflict Git **can't** see | — | One paragraph |
+| 4 | A conflict Git **can't** see | — | One paragraph |
 
 ## Roles and merge order
 Work in a group of **2 or 3**. Pick roles now and write them here:
@@ -241,16 +241,16 @@ Requirements for every ticket:
 Do the full workflow yourself: update `main`, branch (`round3-X`), implement, test, commit, push, PR, merge in order, and resolve any conflict **locally** as in Round 2.
 
 **Definition of done** (whoever merges last checks these on `main`):
-- [ ] The menu lists every feature exactly once, numbered 1, 2, 3, … with **Quit last**
-- [ ] Each number in the menu runs the right feature in `run()`
-- [ ] All handler methods are present, and none were lost in the merge
-- [ ] `python -m unittest` passes and every menu option works in `python main.py`
+- The menu lists every feature exactly once, numbered 1, 2, 3, … with **Quit last**
+- Each number in the menu runs the right feature in `run()`
+- All handler methods are present, and none were lost in the merge
+- `python -m unittest` passes and every menu option works in `python main.py`
 
 *Think about it:* choosing "ours" or "theirs" wasn't enough here. What did the correct resolution require that neither version had?
 
 ---
 
-## Round 4 (stretch): The conflict Git can't see
+## Round 4: The conflict Git can't see
 
 Update `main`. Person A: branch `round4-a` and apply `rounds/round4/A.patch`. Person B: branch `round4-b` and apply `rounds/round4/B.patch`. Read your own diff, commit, push, and open PRs. Merge A, then B. (C: you're the tester. When both are merged, pull `main` and run everything.)
 
