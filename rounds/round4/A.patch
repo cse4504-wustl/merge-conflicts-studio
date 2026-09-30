@@ -1,0 +1,84 @@
+diff --git a/interfaces/task_repository.py b/interfaces/task_repository.py
+index ad41061..852f5f2 100644
+--- a/interfaces/task_repository.py
++++ b/interfaces/task_repository.py
+@@ -5,7 +5,7 @@ from entity.task import Task
+ 
+ class TaskRepository(Protocol):
+     def get_all(self) -> List[Task]: ...
+-    def get_by_id(self, task_id: int) -> Optional[Task]: ...
++    def find_by_id(self, task_id: int) -> Optional[Task]: ...
+     def add(self, task: Task) -> None: ...
+     def update(self, task: Task) -> None: ...
+     def remove(self, task_id: int) -> None: ...
+diff --git a/persistence/in_memory_task_repository.py b/persistence/in_memory_task_repository.py
+index 41b9326..3eb7e3c 100644
+--- a/persistence/in_memory_task_repository.py
++++ b/persistence/in_memory_task_repository.py
+@@ -10,7 +10,7 @@ class InMemoryTaskRepository:
+     def get_all(self) -> List[Task]:
+         return list(self._tasks)
+ 
+-    def get_by_id(self, task_id: int) -> Optional[Task]:
++    def find_by_id(self, task_id: int) -> Optional[Task]:
+         for task in self._tasks:
+             if task.id == task_id:
+                 return task
+diff --git a/tests/test_completed_date.py b/tests/test_completed_date.py
+index 4d4ae6c..e07120c 100644
+--- a/tests/test_completed_date.py
++++ b/tests/test_completed_date.py
+@@ -18,7 +18,7 @@ class CompletedDateTests(unittest.TestCase):
+         repo = InMemoryTaskRepository()
+         task = AddTaskUseCase(repo)(AddTaskRequest("write report")).task
+         CompleteTaskUseCase(repo)(TaskOperationRequest(task.id))
+-        self.assertEqual(date.today(), repo.get_by_id(task.id).completed_date)
++        self.assertEqual(date.today(), repo.find_by_id(task.id).completed_date)
+ 
+ 
+ if __name__ == "__main__":
+diff --git a/tests/test_use_cases.py b/tests/test_use_cases.py
+index 444987b..21171f3 100644
+--- a/tests/test_use_cases.py
++++ b/tests/test_use_cases.py
+@@ -32,7 +32,7 @@ class UseCaseTests(unittest.TestCase):
+         task = self.add(AddTaskRequest("first")).task
+         response = self.complete(TaskOperationRequest(task.id))
+         self.assertTrue(response.success)
+-        self.assertTrue(self.repo.get_by_id(task.id).completed)
++        self.assertTrue(self.repo.find_by_id(task.id).completed)
+ 
+     def test_complete_missing_task_fails(self):
+         response = self.complete(TaskOperationRequest(99))
+diff --git a/use_cases/complete_task.py b/use_cases/complete_task.py
+index 5b85eb1..6526614 100644
+--- a/use_cases/complete_task.py
++++ b/use_cases/complete_task.py
+@@ -10,9 +10,9 @@ class CompleteTaskUseCase:
+         self.repo = repo
+ 
+     def __call__(self, request: TaskOperationRequest) -> TaskOperationResponse:
+-        """Retrieve the task via repo.get_by_id(), set completed=True, persist via repo.update().
++        """Retrieve the task via repo.find_by_id(), set completed=True, persist via repo.update().
+         Return TaskOperationResponse with success=True and the task description if found, or success=False and description="no task found" otherwise."""
+-        task = self.repo.get_by_id(request.task_id)
++        task = self.repo.find_by_id(request.task_id)
+         if task is None:
+             return TaskOperationResponse(success=False, description="no task found")
+ 
+diff --git a/use_cases/delete_task.py b/use_cases/delete_task.py
+index 8f7c7ba..7d95636 100644
+--- a/use_cases/delete_task.py
++++ b/use_cases/delete_task.py
+@@ -8,9 +8,9 @@ class DeleteTaskUseCase:
+         self.repo = repo
+ 
+     def __call__(self, request: TaskOperationRequest) -> TaskOperationResponse:
+-        """Confirm the task exists via repo.get_by_id(), remove it via repo.remove().
++        """Confirm the task exists via repo.find_by_id(), remove it via repo.remove().
+         Return TaskOperationResponse with success=True and the task description if found, or success=False and description="no task found" otherwise."""
+-        task = self.repo.get_by_id(request.task_id)
++        task = self.repo.find_by_id(request.task_id)
+         if task is None:
+             return TaskOperationResponse(success=False, description="no task found")
+ 

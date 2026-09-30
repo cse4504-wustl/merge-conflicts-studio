@@ -1,0 +1,13 @@
+diff --git a/ui/cli.py b/ui/cli.py
+index 013b4f0..89d7f4d 100644
+--- a/ui/cli.py
++++ b/ui/cli.py
+@@ -53,7 +53,7 @@ class TaskCLI:
+             return
+ 
+         response = self.add_task(AddTaskRequest(description))
+-        print("Task added successfully!")
++        print(f"Task #{response.task.id} added. Use option 3 to mark it complete.")
+ 
+     # ------------------------------------------------------------------
+     # List

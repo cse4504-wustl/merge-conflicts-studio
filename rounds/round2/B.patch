@@ -1,0 +1,50 @@
+diff --git a/entity/task.py b/entity/task.py
+index 6cd87ef..b02261f 100644
+--- a/entity/task.py
++++ b/entity/task.py
+@@ -2,8 +2,10 @@ from datetime import date
+ 
+ 
+ class Task:
+-    def __init__(self, description: str, id: int, completed: bool = None, created_date: date = None):
++    def __init__(self, description: str, id: int, completed: bool = None, created_date: date = None,
++                 priority: str = "normal"):
+         self.description = description
+         self.id = id
+         self.completed = False if completed is None else completed
+         self.created_date = date.today() if created_date is None else created_date
++        self.priority = priority
+diff --git a/tests/test_priority.py b/tests/test_priority.py
+new file mode 100644
+index 0000000..b25585e
+--- /dev/null
++++ b/tests/test_priority.py
+@@ -0,0 +1,15 @@
++import unittest
++
++from entity.task import Task
++
++
++class PriorityTests(unittest.TestCase):
++    def test_default_priority_is_normal(self):
++        self.assertEqual("normal", Task(description="read chapter 3", id=1).priority)
++
++    def test_priority_can_be_set(self):
++        self.assertEqual("high", Task(description="read chapter 3", id=1, priority="high").priority)
++
++
++if __name__ == "__main__":
++    unittest.main()
+diff --git a/ui/cli.py b/ui/cli.py
+index 013b4f0..4fe3151 100644
+--- a/ui/cli.py
++++ b/ui/cli.py
+@@ -66,7 +66,7 @@ class TaskCLI:
+ 
+         for task in response.tasks:
+             status = "Done" if task.completed else "Pending"
+-            print(f"ID: {task.id} | Description: {task.description} | Status: {status} | Created: {task.created_date}")
++            print(f"ID: {task.id} | Description: {task.description} | Status: {status} | Created: {task.created_date} | Priority: {task.priority}")
+ 
+     # ------------------------------------------------------------------
+     # Complete

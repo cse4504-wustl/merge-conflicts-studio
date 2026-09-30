@@ -1,0 +1,53 @@
+diff --git a/entity/task.py b/entity/task.py
+index 6cd87ef..753175a 100644
+--- a/entity/task.py
++++ b/entity/task.py
+@@ -2,8 +2,10 @@ from datetime import date
+ 
+ 
+ class Task:
+-    def __init__(self, description: str, id: int, completed: bool = None, created_date: date = None):
++    def __init__(self, description: str, id: int, completed: bool = None, created_date: date = None,
++                 due_date: date = None):
+         self.description = description
+         self.id = id
+         self.completed = False if completed is None else completed
+         self.created_date = date.today() if created_date is None else created_date
++        self.due_date = due_date
+diff --git a/tests/test_due_date.py b/tests/test_due_date.py
+new file mode 100644
+index 0000000..1a0e63b
+--- /dev/null
++++ b/tests/test_due_date.py
+@@ -0,0 +1,17 @@
++import unittest
++from datetime import date
++
++from entity.task import Task
++
++
++class DueDateTests(unittest.TestCase):
++    def test_default_due_date_is_none(self):
++        self.assertIsNone(Task(description="submit lab", id=1).due_date)
++
++    def test_due_date_can_be_set(self):
++        due = date(2026, 12, 1)
++        self.assertEqual(due, Task(description="submit lab", id=1, due_date=due).due_date)
++
++
++if __name__ == "__main__":
++    unittest.main()
+diff --git a/ui/cli.py b/ui/cli.py
+index 013b4f0..b70314f 100644
+--- a/ui/cli.py
++++ b/ui/cli.py
+@@ -66,7 +66,8 @@ class TaskCLI:
+ 
+         for task in response.tasks:
+             status = "Done" if task.completed else "Pending"
+-            print(f"ID: {task.id} | Description: {task.description} | Status: {status} | Created: {task.created_date}")
++            due = task.due_date if task.due_date else "none"
++            print(f"ID: {task.id} | Description: {task.description} | Status: {status} | Created: {task.created_date} | Due: {due}")
+ 
+     # ------------------------------------------------------------------
+     # Complete

@@ -1,0 +1,60 @@
+diff --git a/tests/test_reopen_task.py b/tests/test_reopen_task.py
+new file mode 100644
+index 0000000..6114b01
+--- /dev/null
++++ b/tests/test_reopen_task.py
+@@ -0,0 +1,29 @@
++import unittest
++
++from dto.add_task_request import AddTaskRequest
++from dto.task_operation_request import TaskOperationRequest
++from persistence.in_memory_task_repository import InMemoryTaskRepository
++from use_cases.add_task import AddTaskUseCase
++from use_cases.complete_task import CompleteTaskUseCase
++from use_cases.reopen_task import ReopenTaskUseCase
++
++
++class ReopenTaskTests(unittest.TestCase):
++    def test_reopen_clears_completion(self):
++        repo = InMemoryTaskRepository()
++        task = AddTaskUseCase(repo)(AddTaskRequest("fix bug")).task
++        CompleteTaskUseCase(repo)(TaskOperationRequest(task.id))
++
++        response = ReopenTaskUseCase(repo)(TaskOperationRequest(task.id))
++
++        self.assertTrue(response.success)
++        self.assertFalse(task.completed)
++        self.assertIsNone(task.completed_date)
++
++    def test_reopen_missing_task_fails(self):
++        response = ReopenTaskUseCase(InMemoryTaskRepository())(TaskOperationRequest(42))
++        self.assertFalse(response.success)
++
++
++if __name__ == "__main__":
++    unittest.main()
+diff --git a/use_cases/reopen_task.py b/use_cases/reopen_task.py
+new file mode 100644
+index 0000000..859d4a9
+--- /dev/null
++++ b/use_cases/reopen_task.py
+@@ -0,0 +1,19 @@
++from dto.task_operation_request import TaskOperationRequest
++from dto.task_operation_response import TaskOperationResponse
++from interfaces.task_repository import TaskRepository
++
++
++class ReopenTaskUseCase:
++    def __init__(self, repo: TaskRepository):
++        self.repo = repo
++
++    def __call__(self, request: TaskOperationRequest) -> TaskOperationResponse:
++        """Mark a completed task as not completed again (e.g., it was closed by mistake)."""
++        task = self.repo.get_by_id(request.task_id)
++        if task is None:
++            return TaskOperationResponse(success=False, description="no task found")
++
++        task.completed = False
++        task.completed_date = None
++        self.repo.update(task)
++        return TaskOperationResponse(success=True, description=task.description)
