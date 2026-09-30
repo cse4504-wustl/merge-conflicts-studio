@@ -76,9 +76,9 @@ On GitHub: **Pull requests → New pull request**, **base: `main`**, **compare: 
 ### 1.3 Merge in order
 **Person A** (first in the merge order): your PR says *"This branch has no conflicts with the base branch."* Click **Merge pull request**, then **Confirm merge**.
 
-**Person B** (next): refresh your PR page. It now says *"This branch has conflicts that must be resolved."* That happened because `main` changed (A's PR) on the same line your branch changed. Git can't know which version you want, so it asks a human.
+**Person B** (next): open **your** PR (`round1-b` → `main`) and refresh the page. It now says *"This branch has conflicts that must be resolved."* That happened because `main` changed (A's PR) on the same line your branch changed. Git can't know which version you want, so it asks a human.
 
-Click **Resolve conflicts**. GitHub opens an editor showing something like this:
+Click **Resolve conflicts** on that PR. GitHub opens an editor showing something like this:
 
 ```python
         response = self.add_task(AddTaskRequest(description))
@@ -105,14 +105,19 @@ Here, both changes are good ideas. One adds the ID, the other adds the descripti
         print(f"Task #{response.task.id} added: {response.task.description}")
 ```
 
-### 1.5 Resolve
-In the GitHub editor:
-1. Replace everything from `<<<<<<<` through `>>>>>>> main` with the line (or lines) you agreed on.
-2. Make sure **no** `<<<<<<<`, `=======`, or `>>>>>>>` lines remain, and the indentation matches the line above.
-3. Click **Mark as resolved**, then **Commit merge**.
-4. Back on the PR, click **Merge pull request** → **Confirm merge**.
+### 1.5 Resolve (Person B, in the browser, on **your own PR**)
+Everything in this step happens on GitHub, in the editor that opened when you clicked **Resolve conflicts** on **your** PR (`round1-b` → `main`). You don't need your terminal or local clone.
 
-**Person C** (3-person groups): now repeat 1.3 to 1.5 for your PR. This time the `main` side of the conflict is the line your group just agreed on. Decide whether your version adds anything worth keeping.
+Where does the fix go? It is saved to **your branch, `round1-b`**. GitHub creates a *merge commit* on `round1-b` that brings in the latest `main` and includes your resolution. Nothing changes on `main` until you merge the PR in the last step.
+
+1. In the editor, replace everything from the `<<<<<<< round1-b` line through the `>>>>>>> main` line with the line (or lines) your group agreed on.
+2. Make sure **no** `<<<<<<<`, `=======`, or `>>>>>>>` lines remain, and the indentation matches the line above.
+3. Click **Mark as resolved** (top right of the editor), then **Commit merge**. If GitHub asks where to commit, choose to commit directly to `round1-b`.
+4. You're back on your PR, which now says *no conflicts*. Click **Merge pull request** → **Confirm merge**. **Now** your resolution reaches `main`.
+
+> Your local `round1-b` branch is now behind the one on GitHub. That's fine, because you won't use it again. Each round starts from a fresh `main`.
+
+**Person C** (3-person groups): now repeat 1.3 to 1.5 on **your** PR (`round1-c` → `main`). Your resolution is committed to `round1-c`. This time the `main` side of the conflict is the line your group just agreed on. Decide whether your version adds anything worth keeping.
 
 ### 1.6 Verify (whoever merged last)
 ```
@@ -122,8 +127,6 @@ python -m unittest
 python main.py
 ```
 Add a task and check the message. **Did the program still run?** If not, fix it on a new branch and PR it.
-
-> **What just happened?** GitHub made a *merge commit* on your branch that combined `main` into it, with your resolution inside. That is why your PR could then merge cleanly.
 
 ---
 
