@@ -30,8 +30,9 @@ In every round, everyone makes a change on their **own branch** and opens a pull
 
 **Rules for every round**
 1. At the start of a round, **everyone** updates `main` first: `git checkout main` then `git pull`.
-2. Do **not** merge your PR until the person before you has merged theirs.
-3. After every merge, someone runs the tests and the program on the updated `main`:
+2. Start every PR title with your role letter in brackets, e.g. `[A] Improve add-task confirmation message`. GitHub fills in the title from your commit message, and everyone's commit message is the same, so without the letter you can't tell whose PR is whose.
+3. Do **not** merge your PR until the person before you has merged theirs.
+4. After every merge, someone runs the tests and the program on the updated `main`:
    ```
    python -m unittest
    python main.py
@@ -71,7 +72,7 @@ git push --set-upstream origin round1-X
 ```
 
 ### 1.2 Open your PR (everyone)
-On GitHub: **Pull requests → New pull request**, **base: `main`**, **compare: `round1-X`**. Give it a one-sentence description and click **Create pull request**. Don't merge yet!
+On GitHub: **Pull requests → New pull request**, **base: `main`**, **compare: `round1-X`**. GitHub fills in the title from your commit message. Add your role letter to the front, e.g. `[B] Improve add-task confirmation message`. Give it a one-sentence description and click **Create pull request**. Don't merge yet!
 
 ### 1.3 Merge in order
 **Person A** (first in the merge order): your PR says *"This branch has no conflicts with the base branch."* Click **Merge pull request**, then **Confirm merge**.
@@ -150,7 +151,7 @@ git add -A
 git commit -m "Add <your field> to Task"
 git push --set-upstream origin round2-X
 ```
-Open a PR from `round2-X` into `main`. **Merge order this round: B → C → A** (2-person groups: B → A).
+Open a PR from `round2-X` into `main`, with your role letter at the start of the title (e.g. `[C] Add due_date to Task`). **Merge order this round: B → C → A** (2-person groups: B → A).
 
 ### 2.2 First person merges
 Person B: your PR has no conflicts. Merge it.
@@ -238,7 +239,7 @@ Requirements for every ticket:
 
 **Merge order: C → A → B** (2-person groups: A → B)
 
-Do the full workflow yourself: update `main`, branch (`round3-X`), implement, test, commit, push, PR, merge in order, and resolve any conflict **locally** as in Round 2.
+Do the full workflow yourself: update `main`, branch (`round3-X`), implement, test, commit, push, PR (with `[A]`, `[B]`, or `[C]` at the start of the title), merge in order, and resolve any conflict **locally** as in Round 2.
 
 **Definition of done** (whoever merges last checks these on `main`):
 - The menu lists every feature exactly once, numbered 1, 2, 3, … with **Quit last**
@@ -252,7 +253,7 @@ Do the full workflow yourself: update `main`, branch (`round3-X`), implement, te
 
 ## Round 4: The conflict Git can't see
 
-Update `main`. Person A: branch `round4-a` and apply `rounds/round4/A.patch`. Person B: branch `round4-b` and apply `rounds/round4/B.patch`. Read your own diff, commit, push, and open PRs. Merge A, then B. (C: you're the tester. When both are merged, pull `main` and run everything.)
+Update `main`. Person A: branch `round4-a` and apply `rounds/round4/A.patch`. Person B: branch `round4-b` and apply `rounds/round4/B.patch`. Read your own diff, commit, push, and open PRs (titles starting with `[A]` or `[B]`). Merge A, then B. (C: you're the tester. When both are merged, pull `main` and run everything.)
 
 Did Git report a conflict? Now run `python -m unittest` on `main`. Figure out what went wrong, why Git didn't catch it, and fix it on a new branch with a PR.
 
