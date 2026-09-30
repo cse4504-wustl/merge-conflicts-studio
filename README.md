@@ -7,7 +7,7 @@ Merge conflicts are a normal part of working on a team. In this studio you will 
 |---|---|---|---|
 | 1 | Reading conflict markers; choosing a resolution | GitHub web editor | Every step spelled out |
 | 2 | Resolving several conflicts across files, locally | Your editor + terminal | Commands given, explanation reduced |
-| 3 | Writing your own code that collides with a teammate's | Your choice | Feature ticket + checklist only |
+| 3 | Writing your own code that collides with a teammate's | Your choice | Feature description + checklist only |
 | 4 | A conflict Git **can't** see | — | One paragraph |
 
 ## Roles and merge order
@@ -264,17 +264,19 @@ Pull `main`, run the tests, run the program. Everyone should see all fields in t
 
 **The story:** Each of you implements a new menu option. The product owner wants every new feature **as option 5**, with **Quit moved to option 6**. You'll soon find that you can't all be option 5.
 
-| Role | Ticket |
+| Role | Feature |
 |---|---|
 | **A** | **Clear completed tasks.** Option 5 removes every completed task and prints how many were removed. |
 | **B** | **Edit a task.** Option 5 asks for a task ID and a new description, and updates the task. Print a helpful message if the ID doesn't exist. |
 | **C** | **Show pending tasks.** Option 5 lists only the tasks that are not completed. |
 
-Requirements for every ticket:
+Requirements for every feature:
 * Add your option as `5.` in `_print_menu`, and change Quit to `6.`
 * Add a matching `elif` in `run()`
 * Write a new handler method for your feature (A: `_handle_clear_completed`, B: `_handle_edit`, C: `_handle_pending`). **Everyone** puts their method in the same place: directly after `_handle_delete` in `ui/cli.py`
 * Keep it small; 10 to 15 lines of code is plenty. (Adding a new use case in `use_cases/` is great design but optional today.)
+
+**You may use GenAI to implement your feature.** Give it your feature description and the requirements above, then review what it produces before you commit. AI tools like to renumber menus, move methods around, or tidy up unrelated code. Make sure your change still uses option `5`, moves Quit to `6`, and puts your method directly after `_handle_delete`. Otherwise the conflict won't happen the way this round intends.
 
 **Merge order: C → A → B** (2-person groups: A → B)
 
