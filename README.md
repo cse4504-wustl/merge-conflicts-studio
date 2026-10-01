@@ -3,12 +3,12 @@
 ## Overview
 Merge conflicts are a normal part of working on a team. In this studio you will cause, and then resolve, several merge conflicts in a small command-line task manager (the same design you saw in the Workflow Practice studio). The first rounds walk you through every command. Each later round gives you less help, so by the end you are resolving conflicts on your own.
 
-| Round | What you practice | Where you resolve | Scaffolding |
-|---|---|---|---|
-| 1 | Reading conflict markers; choosing a resolution | GitHub web editor | Every step spelled out |
-| 2 | Resolving several conflicts across files, locally | Your editor + terminal | Commands given, explanation reduced |
-| 3 | A conflict Git **can't** see | — | One paragraph |
-| 4 | Writing your own code that collides with a teammate's | Your choice | Feature description + checklist only |
+| Round | What you practice |
+|---|---|
+| 1 | Reading conflict markers; choosing a resolution |
+| 2 | Resolving several conflicts across files, locally |
+| 3 | A conflict Git **can't** see |
+| 4 | Writing your own code that collides with a teammate's |
 
 ## Roles and merge order
 Work in a group of **2 or 3**. Pick roles now and write them here:
